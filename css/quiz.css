@@ -170,6 +170,7 @@
   .btn-box {
     flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
   .btn-2 {
     width: 90% !important ;

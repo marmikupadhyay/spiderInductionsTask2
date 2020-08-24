@@ -7,6 +7,9 @@ export default class Quiz {
       wrong: 0,
       correct: 0,
       noQuestions: 10,
+      finish: false,
+      score: 0,
+      name: "Guest",
       quizData: questionArr
     };
   }
@@ -68,17 +71,10 @@ export default class Quiz {
               <button class="btn-2 med-shadow" id="check" ${checkBtnState}>Check</button>
               <button class="btn-2 med-shadow" id="next" ${nextBtnState}>Next</button>
             </div>`;
+    quizBox = this.handleFinish(quizBox);
     container.appendChild(quizBox);
     this.handleClicks();
-    document.getElementById("previous").addEventListener("click", () => {
-      this.moveToQuestion(this.state.index - 1);
-    });
-    document.getElementById("check").addEventListener("click", () => {
-      this.checkAnswer();
-    });
-    document.getElementById("next").addEventListener("click", () => {
-      this.moveToQuestion(this.state.index + 1);
-    });
+    this.handleBtns();
   }
 
   handleClicks() {
@@ -87,6 +83,43 @@ export default class Quiz {
       option.addEventListener("click", event => {
         this.markOption(event, option.children[0].id);
       });
+    });
+  }
+
+  handleFinish(quizBox) {
+    if (this.state.finish) {
+      quizBox.innerHTML = ``;
+      quizBox.innerHTML += `<div class="quiz-header">
+              <span class="info-item">
+                <i class="material-icons large">check</i> ${this.state.correct} Correct</span
+              >
+              <span class="info-item">
+                <i class="material-icons">close</i> ${this.state.wrong} Wrong</span
+              >
+              <span class="info-item">
+                <i class="material-icons">alarm</i> 24s
+              </span>
+            </div>`;
+      quizBox.innerHTML += `<div class="question-card low-shadow">
+      <span class="question-info">Quiz Finished</span>
+      <div class="question">Your Name: ${this.state.name}</div>
+      <div class="question">Your Score: ${this.state.score}</div>
+      </div >`;
+      return quizBox;
+    } else {
+      return quizBox;
+    }
+  }
+
+  handleBtns() {
+    document.getElementById("previous").addEventListener("click", () => {
+      this.moveToQuestion(this.state.index - 1);
+    });
+    document.getElementById("check").addEventListener("click", () => {
+      this.checkAnswer();
+    });
+    document.getElementById("next").addEventListener("click", () => {
+      this.moveToQuestion(this.state.index + 1);
     });
   }
 
@@ -135,6 +168,10 @@ export default class Quiz {
       newState.wrong++;
       ques.checked = true;
       ques.status = false;
+    }
+    if (newState.wrong + newState.correct === newState.noQuestions) {
+      newState.finish = true;
+      newState.score = (newState.correct / newState.wrong) * 10;
     }
     this.setState(newState);
   }
