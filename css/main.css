@@ -1,0 +1,141 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Lato";
+}
+
+.main-body {
+  display: flex;
+}
+
+.col-3 {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+}
+
+.col-6 {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.left-side {
+  position: fixed;
+  height: 100vh;
+  background: #162447;
+  box-shadow: 0px 0px 20px #000000;
+  z-index: 20;
+}
+
+.rightmost-box {
+  margin-left: 75%;
+  position: fixed;
+  height: 100vh;
+  background: #162447;
+  box-shadow: 0px 0px 10px #000000;
+  z-index: 20;
+}
+
+.info {
+  font-size: 1.1em;
+  color: white;
+  padding: 1rem;
+}
+
+.info li {
+  padding-bottom: 10px;
+}
+
+.wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 4em);
+  z-index: 2;
+}
+
+.title {
+  font-size: 2.5em;
+  font-family: "Lato";
+  border-bottom: 2px solid white;
+  color: white;
+  padding-bottom: 0.25em;
+  margin-bottom: 1rem;
+}
+
+.form-container {
+  border: 2px solid white;
+  padding: 1rem;
+}
+
+.form-group {
+  margin: 1em 0;
+}
+
+.inputField {
+  padding: 0.25rem;
+  display: block;
+  width: 100%;
+  font-size: 1.25em;
+}
+
+input:focus {
+  outline: none;
+}
+
+label {
+  color: white;
+  font-size: 1.5em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  font-size: 1.25em;
+  margin-top: 2rem;
+  padding: 0.25em 0;
+  background: #e43f5a;
+  border: none;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 2px;
+  filter: drop-shadow(0px 0px 10px #000000);
+}
+
+/* Right Side ##################  */
+
+.right-side {
+  margin-left: 25%;
+  min-height: 100vh;
+  background: #e43f5a;
+  position: relative;
+  height: auto;
+  overflow-y: auto;
+}
+
+.right-side::-webkit-scrollbar {
+  display: none;
+}
+
+@media only screen and (max-width: 780px) {
+  .main-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .left-side,
+  .rightmost-box {
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+  .right-side {
+    position: relative;
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
