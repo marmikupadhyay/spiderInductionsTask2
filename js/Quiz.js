@@ -221,6 +221,7 @@ export default class Quiz {
       ques.status = false;
     }
     if (newState.wrong + newState.correct === newState.noQuestions) {
+      clearInterval(this.state.clock);
       newState.finish = true;
       newState.score =
         (newState.correct / newState.noQuestions) * newState.time;
