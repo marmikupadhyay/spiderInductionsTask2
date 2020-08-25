@@ -36,6 +36,7 @@ export default class Quiz {
   }
 
   render() {
+    this.renderNav();
     let container = document.querySelector(".container");
     container.innerHTML = "";
     var checkBtnState =
@@ -103,6 +104,40 @@ export default class Quiz {
     container.appendChild(quizBox);
     this.handleClicks();
     this.handleBtns();
+  }
+
+  renderNav() {
+    let box = document.getElementById("question-nav");
+    let utility = document.getElementById("nav-utility");
+    utility.classList.contains("hidden")
+      ? utility.classList.remove("hidden")
+      : "";
+    let list = document.createElement("ul");
+    list.className = "nav med-shadow";
+    box.innerHTML = "";
+    list.innerHTML = "";
+    const wrongStyle = "background:rgb(240, 79, 79)";
+    const rightStyle = "background: rgb(79, 240, 133);";
+    const markedStyle = "background:#1b1b2f";
+
+    for (var i = 0; i < this.state.noQuestions; i++) {
+      let style = this.state.quizData[i].checked
+        ? this.state.quizData[i].status
+          ? rightStyle
+          : wrongStyle
+        : this.state.quizData[i].marked != null
+        ? markedStyle
+        : "";
+      list.innerHTML += `<li class="nav-item" style="${style}">${i + 1}</li>`;
+    }
+    box.appendChild(list);
+    var items = list.querySelectorAll(".nav-item");
+    items.forEach(item => {
+      item.addEventListener("click", e => {
+        var index = Number.parseInt(e.target.innerHTML);
+        this.moveToQuestion(index - 1);
+      });
+    });
   }
 
   handleClicks() {
