@@ -1,7 +1,7 @@
 import { questionArr } from "./data.js";
 
 export default class Quiz {
-  constructor() {
+  constructor(user) {
     this.state = {
       index: 0,
       wrong: 0,
@@ -9,9 +9,25 @@ export default class Quiz {
       noQuestions: 10,
       finish: false,
       score: 0,
-      name: "Guest",
-      quizData: questionArr
+      name: user,
+      quizData: questionArr,
+      time: 60 * 5
     };
+    this.state.clock = setInterval(() => {
+      let clockBox = document.getElementById("clock");
+      clockBox.innerHTML = `<span class="info-item" id="clock">
+                <i class="material-icons">alarm</i> ${Math.floor(
+                  this.state.time / 60
+                )}:${this.state.time % 60}
+              </span>`;
+      this.state.time--;
+    }, 1000);
+    setTimeout(() => {
+      clearInterval(this.state.clock);
+      let newState = this.state;
+      newState.finish = true;
+      this.setState(newState);
+    }, 1000 * 60 * 5);
   }
 
   setState(state) {
@@ -40,6 +56,14 @@ export default class Quiz {
 
     let quizBox = document.createElement("div");
     quizBox.className = "quiz-box shadow";
+    let checkedStyle =
+      this.state.quizData[this.state.index].status != null
+        ? this.state.quizData[this.state.index].status
+          ? "background: rgb(79, 240, 133);"
+          : "background: rgb(240, 79, 79)"
+        : "";
+    quizBox.style = checkedStyle;
+
     quizBox.innerHTML = `<div class="quiz-header">
               <span class="info-item">
                 <i class="material-icons large">check</i> ${
@@ -51,11 +75,15 @@ export default class Quiz {
                   this.state.wrong
                 } Wrong</span
               >
-              <span class="info-item">
-                <i class="material-icons">alarm</i> 24s
+              <span class="info-item" id="clock">
+                <i class="material-icons">alarm</i> ${Math.floor(
+                  this.state.time / 60
+                )}:${this.state.time % 60}
               </span>
             </div>
-            <div class="question-card low-shadow">
+            <div class="question-card low-shadow ${
+              this.state.quizData[this.state.index].checked && "shake"
+            }">
               <span class="question-info">Question ${this.state.index + 1} ( ${
       this.state.noQuestions - this.state.index - 1
     } remaining )</span>
@@ -91,15 +119,22 @@ export default class Quiz {
       quizBox.innerHTML = ``;
       quizBox.innerHTML += `<div class="quiz-header">
               <span class="info-item">
-                <i class="material-icons large">check</i> ${this.state.correct} Correct</span
+                <i class="material-icons large">check</i> ${
+                  this.state.correct
+                } Correct</span
               >
               <span class="info-item">
-                <i class="material-icons">close</i> ${this.state.wrong} Wrong</span
+                <i class="material-icons">close</i> ${
+                  this.state.wrong
+                } Wrong</span
               >
-              <span class="info-item">
-                <i class="material-icons">alarm</i> 24s
+              <span class="info-item" id="clock">
+                <i class="material-icons">alarm</i> ${Math.floor(
+                  this.state.time / 60
+                )}:${this.state.time % 60}
               </span>
             </div>`;
+      quizBox.style = "";
       quizBox.innerHTML += `<div class="question-card low-shadow">
       <span class="question-info">Quiz Finished</span>
       <div class="question">Your Name: ${this.state.name}</div>
@@ -124,13 +159,29 @@ export default class Quiz {
   }
 
   getOptions() {
-    const activeStyle = "background:#e43f5a;color:white";
+    let activeStyle = "background:#e43f5a;color:white";
+    const correctAnswer = this.state.quizData[this.state.index].checked
+      ? "background: linear-gradient(90deg, rgba(42,154,62,1) 28%, rgba(0,255,178,1) 76%);color:white;"
+      : "";
+    const wrongAnswer = this.state.quizData[this.state.index].checked
+      ? "background: linear-gradient(90deg, rgba(255,57,57,1) 22%, rgba(255,131,0,1) 83%);"
+      : "";
     let str = `<div class="answers">`;
     this.state.quizData[this.state.index].options.forEach((option, index) => {
+      let normalStyle = "";
+      if (
+        option === this.state.quizData[this.state.index].answer &&
+        this.state.quizData[this.state.index].checked
+      ) {
+        activeStyle = correctAnswer;
+        normalStyle = correctAnswer;
+      } else if (this.state.quizData[this.state.index].checked) {
+        activeStyle = wrongAnswer;
+      }
       str += `<div class="option-box" style="${
         this.state.quizData[this.state.index].marked == index
           ? activeStyle
-          : null
+          : normalStyle
       }">
         <input type="radio" name="answer" id="${
           (this.state.index, index)
@@ -171,7 +222,8 @@ export default class Quiz {
     }
     if (newState.wrong + newState.correct === newState.noQuestions) {
       newState.finish = true;
-      newState.score = (newState.correct / newState.wrong) * 10;
+      newState.score =
+        (newState.correct / newState.noQuestions) * newState.time;
     }
     this.setState(newState);
   }
