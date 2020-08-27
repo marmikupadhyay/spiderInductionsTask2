@@ -14,7 +14,7 @@ export let questionArr = [
     marked: null,
     status: null,
     image:
-      "https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+      "https://images.vexels.com/media/users/3/193275/isolated/preview/c57094cee2e7d857c78edfec426e7750-covid-19-symptom-cough-elbow-by-vexels.png"
   },
   {
     question: `What are the common symptoms of COVID-19? `,
@@ -57,7 +57,7 @@ export let questionArr = [
     marked: null,
     status: null,
     image:
-      "https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+      "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/39182/washing-hands-with-soap-clipart-xl.png"
   },
   {
     question: `When should fabric face masks be worn?`,
@@ -71,7 +71,7 @@ export let questionArr = [
     checked: false,
     marked: null,
     status: null,
-    image: ""
+    image: "../imgs/mask.png"
   },
   {
     question: `Can COVID-19 be cured? `,
@@ -99,8 +99,7 @@ export let questionArr = [
     checked: false,
     marked: null,
     status: null,
-    image:
-      "https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    image: "../imgs/meds.png"
   },
   {
     question: ` In a study, which cells are found in COVID-19 patients 'bode well' for long term immunity?`,
@@ -109,7 +108,8 @@ export let questionArr = [
     checked: false,
     marked: null,
     status: null,
-    image: ""
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Healthy_Human_T_Cell.jpg/1200px-Healthy_Human_T_Cell.jpg"
   },
   {
     question: `Name a clinical trial in which blood is transfused from recovered COVID-19 patients to a coronavirus patient who is in critical condition?`,
@@ -123,8 +123,7 @@ export let questionArr = [
     checked: false,
     marked: null,
     status: null,
-    image:
-      "https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    image: ""
   },
   {
     question: `The first case of novel coronavirus was identified in .....`,
@@ -133,7 +132,6 @@ export let questionArr = [
     checked: false,
     marked: null,
     status: null,
-    image:
-      "https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    image: "../imgs/city.png"
   }
 ];
