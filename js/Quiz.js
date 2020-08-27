@@ -11,7 +11,8 @@ export default class Quiz {
       score: 0,
       name: user,
       quizData: shuffle(questionArr),
-      time: 60 * 5
+      time: 60 * 5,
+      highScore: this.getHighScore()
     };
     this.state.clock = setInterval(() => {
       let clockBox = document.getElementById("clock");
@@ -22,10 +23,13 @@ export default class Quiz {
               </span>`;
       this.state.time--;
     }, 1000);
+
     setTimeout(() => {
       clearInterval(this.state.clock);
       let newState = this.state;
       newState.finish = true;
+      newState.score =
+        (newState.correct / newState.noQuestions) * newState.time;
       this.setState(newState);
     }, 1000 * 60 * 5);
   }
@@ -140,6 +144,28 @@ export default class Quiz {
     });
   }
 
+  getHighScore() {
+    if (window.localStorage.getItem("covidQuizScore") !== null) {
+      return JSON.parse(window.localStorage.getItem("covidQuizScore"));
+    } else {
+      return { name: "", score: 0, timeStamp: "" };
+    }
+  }
+
+  putHighScore() {
+    if (this.state.highScore.score > this.state.score) {
+      return;
+    }
+    let date = new Date();
+    let score = {
+      name: this.state.name,
+      score: this.state.score,
+      timeStamp: date
+    };
+    window.localStorage.setItem("covidQuizScore", JSON.stringify(score));
+    this.state.highScore = this.getHighScore();
+  }
+
   handleClicks() {
     var options = document.querySelectorAll(".option-box");
     options.forEach(option => {
@@ -150,6 +176,7 @@ export default class Quiz {
   }
 
   handleFinish(quizBox) {
+    this.putHighScore();
     if (this.state.finish) {
       quizBox.innerHTML = ``;
       quizBox.innerHTML += `<div class="quiz-header">
@@ -174,6 +201,9 @@ export default class Quiz {
       <span class="question-info">Quiz Finished</span>
       <div class="question">Your Name: ${this.state.name}</div>
       <div class="question">Your Score: ${this.state.score}</div>
+      <hr/>
+      <div class="question">Highest Scorer: ${this.state.highScore.name}</div>
+      <div class="question">High Score: ${this.state.highScore.score}</div>
       </div >`;
       return quizBox;
     } else {

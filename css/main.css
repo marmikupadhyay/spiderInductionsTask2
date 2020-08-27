@@ -114,8 +114,15 @@ label {
   font-weight: bold;
   letter-spacing: 2px;
   filter: drop-shadow(0px 0px 10px #000000);
+  cursor: pointer;
 }
 
+.btn:disabled {
+  background: #eeeeee !important ;
+  box-shadow: none;
+  color: black;
+  cursor: not-allowed;
+}
 /* Right Side ##################  */
 
 .right-side {
